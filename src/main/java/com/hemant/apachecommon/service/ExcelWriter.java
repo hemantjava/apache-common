@@ -69,7 +69,7 @@ public class ExcelWriter {
                 workbook.write(fileOut);
                 log.info("File is created successfully ...");
             } catch (Exception e) {
-                log.error("Exception in file generation...");
+                log.error("Exception in file creation...");
             }
         }
 
