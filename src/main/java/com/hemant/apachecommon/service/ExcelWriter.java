@@ -1,35 +1,26 @@
 package com.hemant.apachecommon.service;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.hemant.apachecommon.entity.Person;
 import com.hemant.apachecommon.repo.PersonRepository;
 import lombok.extern.log4j.Log4j2;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.List;
 
 @Log4j2
 @Service
 public class ExcelWriter {
 
     private static final String SAMPLE_XLSX_FILE = "./output/person.xlsx";
+    private static final String[] columns = {"ID", "FirstName", "LastName", "Email", "Gender", "Age"};
     @Autowired
     private PersonRepository repository;
-
-    private static String[] columns = {"ID", "FirstName", "LastName", "Email", "Gender", "Age"};
-
 
     public void xlsFileCreation() throws IOException,
             InvalidFormatException {
@@ -55,7 +46,7 @@ public class ExcelWriter {
             cell.setCellStyle(headerCellStyle);
         }
 
-        // Create Other rows and cells with contacts data
+        // Create Other rows and cells with Person data
         int rowNum = 1;
 
         for (Person person : personList) {
