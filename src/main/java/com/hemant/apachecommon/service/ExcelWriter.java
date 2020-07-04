@@ -26,50 +26,51 @@ public class ExcelWriter {
             InvalidFormatException {
         List<Person> personList = repository.findAll();
 
-        Workbook workbook = new XSSFWorkbook();
-        Sheet sheet = workbook.createSheet("Person");
+        try (Workbook workbook = new XSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("Person");
 
-        Font headerFont = workbook.createFont();
-        headerFont.setBold(true);
-        headerFont.setFontHeightInPoints((short) 14);
-        headerFont.setColor(IndexedColors.RED.getIndex());
+            Font headerFont = workbook.createFont();
+            headerFont.setBold(true);
+            headerFont.setFontHeightInPoints((short) 14);
+            headerFont.setColor(IndexedColors.RED.getIndex());
 
-        CellStyle headerCellStyle = workbook.createCellStyle();
-        headerCellStyle.setFont(headerFont);
+            CellStyle headerCellStyle = workbook.createCellStyle();
+            headerCellStyle.setFont(headerFont);
 
-        // Create a Row
-        Row headerRow = sheet.createRow(0);
+            // Create a Row
+            Row headerRow = sheet.createRow(0);
 
-        for (int i = 0; i < columns.length; i++) {
-            Cell cell = headerRow.createCell(i);
-            cell.setCellValue(columns[i]);
-            cell.setCellStyle(headerCellStyle);
-        }
+            for (int i = 0; i < columns.length; i++) {
+                Cell cell = headerRow.createCell(i);
+                cell.setCellValue(columns[i]);
+                cell.setCellStyle(headerCellStyle);
+            }
 
-        // Create Other rows and cells with Person data
-        int rowNum = 1;
+            // Create Other rows and cells with Person data
+            int rowNum = 1;
 
-        for (Person person : personList) {
-            Row row = sheet.createRow(rowNum++);
-            row.createCell(0).setCellValue(person.getId());
-            row.createCell(1).setCellValue(person.getFirstName());
-            row.createCell(2).setCellValue(person.getLastName());
-            row.createCell(3).setCellValue(person.getEmail());
-            row.createCell(4).setCellValue(person.getGender());
-            row.createCell(5).setCellValue(person.getAge());
-        }
+            for (Person person : personList) {
+                Row row = sheet.createRow(rowNum++);
+                row.createCell(0).setCellValue(person.getId());
+                row.createCell(1).setCellValue(person.getFirstName());
+                row.createCell(2).setCellValue(person.getLastName());
+                row.createCell(3).setCellValue(person.getEmail());
+                row.createCell(4).setCellValue(person.getGender());
+                row.createCell(5).setCellValue(person.getAge());
+            }
 
-        // Resize all columns to fit the content size
-        for (int i = 0; i < columns.length; i++) {
-            sheet.autoSizeColumn(i);
-        }
+            // Resize all columns to fit the content size
+            for (int i = 0; i < columns.length; i++) {
+                sheet.autoSizeColumn(i);
+            }
 
-        // Write the output to a file
-        try (FileOutputStream fileOut = new FileOutputStream(SAMPLE_XLSX_FILE)) {
-            workbook.write(fileOut);
-            log.info("File is created successfully ...");
-        } catch (Exception e) {
-            log.error("Exception in file generation...");
+            // Write the output to a file
+            try (FileOutputStream fileOut = new FileOutputStream(SAMPLE_XLSX_FILE)) {
+                workbook.write(fileOut);
+                log.info("File is created successfully ...");
+            } catch (Exception e) {
+                log.error("Exception in file generation...");
+            }
         }
 
 
