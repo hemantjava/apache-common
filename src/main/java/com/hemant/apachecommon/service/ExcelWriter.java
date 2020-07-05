@@ -31,7 +31,7 @@ public class ExcelWriter {
 
             Font headerFont = workbook.createFont();
             headerFont.setBold(true);
-            headerFont.setFontHeightInPoints((short) 14);
+            headerFont.setFontHeightInPoints((short) 28);
             headerFont.setColor(IndexedColors.RED.getIndex());
 
             CellStyle headerCellStyle = workbook.createCellStyle();
