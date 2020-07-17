@@ -63,9 +63,9 @@ public class ExcelWriter {
             for (int i = 0; i < columns.length; i++) {
                 sheet.autoSizeColumn(i);
             }
-
             // Write the output to a file
-            try (FileOutputStream fileOut = new FileOutputStream(SAMPLE_XLSX_FILE)) {
+            try {
+                FileOutputStream fileOut = new FileOutputStream(SAMPLE_XLSX_FILE);
                 workbook.write(fileOut);
                 log.info("File is created successfully ...");
             } catch (Exception e) {

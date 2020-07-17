@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.util.List;
 
 @Log4j2
@@ -29,7 +29,7 @@ public class ApacheCommonApplication implements CommandLineRunner{
 	}
 
 	@PostConstruct
-	public void run() throws Exception {
+	public void run() throws IOException {
 		List<Person> personList  = DummyData.getPeople();
 
 		long personCount = personRepository.count();
