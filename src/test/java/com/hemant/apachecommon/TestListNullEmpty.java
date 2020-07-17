@@ -2,6 +2,7 @@ package com.hemant.apachecommon;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
  class TestListNullEmpty {
 
@@ -11,7 +12,7 @@ import java.util.List;
         return strings;
     }
 
-    static <E> boolean checkNotEmpty1(List<E> list) {
+    static <E> boolean checkNotEmpty(Collection<E> list) {
         return !((list == null) ? true : (list.isEmpty() ? true : false));
 
     }
@@ -21,7 +22,7 @@ import java.util.List;
     @Test
      void main() {
         List<String> list = getList();
-        System.out.println("Non-Empty List Check: " + checkNotEmpty1(list));
+        System.out.println("Non-Empty List Check: " + checkNotEmpty(list));
     }
 }
 
