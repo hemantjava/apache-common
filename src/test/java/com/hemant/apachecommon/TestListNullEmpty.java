@@ -14,11 +14,11 @@ import java.util.List;
     }
 
      public static <T> boolean IsNullOrEmpty(Collection<T> list) {
-         return list == null && list.isEmpty();
+         return list == null || list.isEmpty();
      }
 
-     public static <T> boolean IsNullOrEmpty1(Collection<T> list) {
-         return list == null & list.isEmpty();
+     private static <T> boolean IsNullOrEmpty1(Collection<T> list) {
+         return list == null || list.isEmpty();
      }
 
 

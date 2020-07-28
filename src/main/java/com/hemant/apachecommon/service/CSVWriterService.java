@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,7 +25,7 @@ public class CSVWriterService {
 
     private static final String SAMPLE_CSV_FILE = "./output/person.csv";
 
-    public void writeCSVFile() throws IOException {
+    public File writeCSVFile() throws IOException {
 
         try (
                 BufferedWriter writer = Files.newBufferedWriter(Paths.get(SAMPLE_CSV_FILE));
@@ -45,5 +46,8 @@ public class CSVWriterService {
            log.info("CSV file has been created .....");
             csvPrinter.flush();
         }
+        File file = new File(SAMPLE_CSV_FILE);
+        return file;
     }
+
 }
