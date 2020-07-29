@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import static com.hemant.apachecommon.service.CSVWriterService.SAMPLE_CSV_FILE;
 
 @RestController
 public class CSVController {
@@ -23,13 +27,13 @@ public class CSVController {
     public ResponseEntity generateReport(@PathVariable(value = "reportName") String reportName) {
         try {
             File file = csvWriterService.writeCSVFile();
-
-            return ResponseEntity.ok()
+            ResponseEntity<FileSystemResource> body = ResponseEntity.ok()
                     .header("Content-Disposition", "attachment; filename=" + reportName + ".csv")
                     .contentLength(file.length())
                     .contentType(MediaType.parseMediaType("text/csv"))
                     .body(new FileSystemResource(file));
-
+                     //Files.deleteIfExists(Paths.get(SAMPLE_CSV_FILE));
+            return body;
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to generate report: " + reportName, ex);
         }

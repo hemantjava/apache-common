@@ -23,7 +23,7 @@ public class CSVWriterService {
     @Autowired
     private PersonRepository repository;
 
-    private static final String SAMPLE_CSV_FILE = "./output/person.csv";
+    public static final String SAMPLE_CSV_FILE = "./output/person.csv";
 
     public File writeCSVFile() throws IOException {
 
