@@ -2,8 +2,12 @@ package com.hemant.apachecommon.controller;
 
 import com.hemant.apachecommon.entity.Person;
 import com.hemant.apachecommon.repo.PersonRepository;
+import com.hemant.apachecommon.service.CSVFileDownloadService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanWriter;
@@ -17,36 +21,17 @@ import java.util.List;
 public class CSVFileDownloadController {
 
     @Autowired
-    private PersonRepository repository;
+    private CSVFileDownloadService service;
 
-   // localhost:9000//downloadCSV
-    @RequestMapping(value = "/downloadCSV")
-    public void downloadCSV(HttpServletResponse response) throws IOException {
+   // localhost:9000//downloadCSV/{csvFileName}
+    @RequestMapping(value = "/downloadCSV/{csvFileName}")
+    public ResponseEntity<String> downloadCSV(HttpServletResponse response, @PathVariable String csvFileName) throws IOException {
 
-        String csvFileName = "idCard.csv";
+        boolean csvConvert = service.csvConvert(response, csvFileName);
+        if (csvConvert)
+             return new ResponseEntity("Success", HttpStatus.OK);
 
-        response.setContentType("text/csv");
+        return new ResponseEntity("Failure", HttpStatus.NOT_FOUND);
 
-        // creates mock data
-        String headerKey = "Content-Disposition";
-        String headerValue = String.format("attachment; filename=\"%s\"",
-                csvFileName);
-        response.setHeader(headerKey, headerValue);
-
-
-        List<Person> personList = repository.findAll();
-
-        ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(),
-                CsvPreference.STANDARD_PREFERENCE);
-
-        String[] header = {"id", "firstName", "lastName", "email", "gender", "age"};
-
-        csvWriter.writeHeader(header);
-
-        for (Person person : personList) {
-            csvWriter.write(person, header);
-        }
-
-        csvWriter.close();
     }
 }
