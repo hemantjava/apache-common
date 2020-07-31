@@ -26,6 +26,7 @@ public class CSVController {
     @GetMapping(value = "/report/{reportName}", produces = "text/csv")
     public ResponseEntity generateReport(@PathVariable(value = "reportName") String reportName) {
         try {
+            System.out.println("Inside the Controller ...");
             File file = csvWriterService.writeCSVFile();
             ResponseEntity<FileSystemResource> body = ResponseEntity.ok()
                     .header("Content-Disposition", "attachment; filename=" + reportName + ".csv")
